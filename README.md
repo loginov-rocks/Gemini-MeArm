@@ -8,8 +8,9 @@ Developed with Node.js v20.
 
 ```
 npm i
-npm start:serial
-npm start:stt
+npm run start:serial
+npm run start:stt
+npm run start:tts
 ```
 
 ## Firmware
@@ -19,7 +20,9 @@ Arduino Mega
 ## Reference
 
 * https://serialport.io
-* https://picovoice.ai/docs/quick-start/pvrecorder-nodejs/
-* https://picovoice.ai/docs/api/pvrecorder-nodejs/
 * https://picovoice.ai/docs/quick-start/cheetah-nodejs/
 * https://picovoice.ai/docs/api/cheetah-nodejs/
+* https://picovoice.ai/docs/quick-start/pvrecorder-nodejs/
+* https://picovoice.ai/docs/api/pvrecorder-nodejs/
+* https://picovoice.ai/docs/quick-start/orca-nodejs/
+* https://picovoice.ai/docs/api/orca-nodejs/

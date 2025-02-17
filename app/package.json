@@ -1,10 +1,12 @@
 {
   "scripts": {
     "start:serial": "node src/serial.mjs",
-    "start:stt": "node src/speech-to-text.mjs"
+    "start:stt": "node src/speech-to-text.mjs",
+    "start:tts": "node src/text-to-speech.mjs"
   },
   "dependencies": {
     "@picovoice/cheetah-node": "^2.1.2",
+    "@picovoice/orca-node": "^1.0.2",
     "@picovoice/pvrecorder-node": "^1.2.6",
     "serialport": "^13.0.0"
   }
