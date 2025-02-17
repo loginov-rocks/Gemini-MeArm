@@ -26,3 +26,4 @@ Arduino Mega
 * https://picovoice.ai/docs/api/pvrecorder-nodejs/
 * https://picovoice.ai/docs/quick-start/orca-nodejs/
 * https://picovoice.ai/docs/api/orca-nodejs/
+* https://www.npmjs.com/package/play-sound
