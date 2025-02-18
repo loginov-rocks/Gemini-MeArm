@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "start:llm": "node src/llm.mjs",
     "start:serial": "node src/serial.mjs",
     "start:stt": "node src/speech-to-text.mjs",
     "start:tts": "node src/text-to-speech.mjs"
@@ -8,6 +9,7 @@
     "@picovoice/cheetah-node": "^2.1.2",
     "@picovoice/orca-node": "^1.0.2",
     "@picovoice/pvrecorder-node": "^1.2.6",
+    "ollama": "^0.5.13",
     "play-sound": "^1.1.6",
     "serialport": "^13.0.0"
   }

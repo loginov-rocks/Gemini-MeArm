@@ -2,11 +2,11 @@ import { Orca } from '@picovoice/orca-node';
 import { unlinkSync } from 'fs';
 import PlaySound from 'play-sound';
 
+const TEXT = 'Hello, world!';
+
 const PICOVOICE_ACCESS_KEY = '';
 const SYNTHESIZED_KEEP = true;
 const SYNTHESIZED_DIR = './synthesized';
-
-const TEXT = 'Hello, world!';
 
 const outputPath = `${SYNTHESIZED_DIR}/${Date.now()}.wav`;
 
@@ -23,10 +23,10 @@ const play = (what) => new Promise((resolve, reject) => {
   })
 });
 
-const synthesize = async () => {
+const synthesize = async (text) => {
   console.log('Synthesizing...');
 
-  const alignments = orca.synthesizeToFile(TEXT, outputPath);
+  const alignments = orca.synthesizeToFile(text, outputPath);
 
   orca.release();
 
@@ -42,4 +42,4 @@ const synthesize = async () => {
   console.log('Complete!');
 };
 
-synthesize();
+synthesize(TEXT);
