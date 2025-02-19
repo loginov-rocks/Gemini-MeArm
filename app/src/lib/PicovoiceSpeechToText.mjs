@@ -3,20 +3,22 @@ import { PvRecorder } from '@picovoice/pvrecorder-node';
 
 export class PicovoiceSpeechToText {
   constructor({ accessKey }) {
-    this.cheetah = new Cheetah(accessKey, { enableAutomaticPunctuation: true });
-    this.pvRecorder = new PvRecorder(512);
+    this.accessKey = accessKey;
   }
 
   async recordAndTranscribe() {
     console.log('[PicovoiceTextToSpeech] Starting recording...');
 
-    this.pvRecorder.start();
+    const cheetah = new Cheetah(this.accessKey, { enableAutomaticPunctuation: true });
+    const pvRecorder = new PvRecorder(512);
+
+    pvRecorder.start();
     let isPaused = false;
     let transcript = '';
 
     while (!isPaused) {
-      const frame = await this.pvRecorder.read();
-      const [partialTranscript, isEndpoint] = this.cheetah.process(frame);
+      const frame = await pvRecorder.read();
+      const [partialTranscript, isEndpoint] = cheetah.process(frame);
 
       if (partialTranscript) {
         transcript += partialTranscript;
@@ -25,7 +27,7 @@ export class PicovoiceSpeechToText {
       }
 
       if (isEndpoint) {
-        const lastTranscript = this.cheetah.flush();
+        const lastTranscript = cheetah.flush();
         isPaused = true;
         transcript += lastTranscript;
 
@@ -33,8 +35,8 @@ export class PicovoiceSpeechToText {
       }
     }
 
-    this.cheetah.release();
-    this.pvRecorder.release();
+    cheetah.release();
+    pvRecorder.release();
 
     console.log('[PicovoiceTextToSpeech] Finished recording');
 

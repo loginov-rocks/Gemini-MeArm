@@ -9,11 +9,10 @@ export class PicovoiceTextToSpeech {
   };
 
   constructor({ accessKey, outputDir, persistOutput, voice }) {
-    this.orca = new Orca(accessKey, { modelPath: voice });
+    this.accessKey = accessKey;
     this.outputDir = outputDir;
     this.persistOutput = persistOutput;
-
-    this.player = PlaySound();
+    this.voice = voice;
   }
 
   buildFilePath() {
@@ -23,11 +22,17 @@ export class PicovoiceTextToSpeech {
   generateAudioFile(text, filePath) {
     console.log(`[PicovoiceTextToSpeech] Generating audio file ${filePath} with text: "${text}"...`);
 
-    // @see https://picovoice.ai/docs/api/orca-nodejs/#orcasynthesizetofile
-    const alignments = this.orca.synthesizeToFile(text, filePath);
-    this.orca.release();
+    const orca = new Orca(this.accessKey, { modelPath: this.voice });
+    const sanitizedText = this.sanitizeText(text, orca.validCharacters/*, orca.maxCharacterLimit */);
 
-    console.log(`[PicovoiceTextToSpeech] Alignments: ${JSON.stringify(alignments)}`);
+    console.log(`[PicovoiceTextToSpeech] Sanitized text: "${sanitizedText}"`);
+
+    // @see https://picovoice.ai/docs/api/orca-nodejs/#orcasynthesizetofile
+    const alignments = orca.synthesizeToFile(sanitizedText, filePath);
+    orca.release();
+
+    // console.log(`[PicovoiceTextToSpeech] Alignments: ${JSON.stringify(alignments)}`);
+    console.log('[PicovoiceTextToSpeech] Finished generating');
 
     return alignments;
   }
@@ -36,14 +41,25 @@ export class PicovoiceTextToSpeech {
     console.log(`[PicovoiceTextToSpeech] Playing audio file ${filePath}`);
 
     return new Promise((resolve, reject) => {
-      this.player.play(filePath, (error) => {
+      const player = PlaySound();
+
+      player.play(filePath, (error) => {
         if (error) {
           return reject(error);
         }
 
+        console.log('[PicovoiceTextToSpeech] Finished playing');
+
         resolve();
       })
     });
+  }
+
+  sanitizeText(text, validCharacters) {
+    const validCharactersSet = new Set(validCharacters);
+    const sanitized = text.split('').map((character) => validCharactersSet.has(character) ? character : ' ').join('');
+
+    return sanitized.replace(/\s+/g, ' ').trim();
   }
 
   async speak(text) {
@@ -54,9 +70,9 @@ export class PicovoiceTextToSpeech {
     await this.playAudioFile(filePath);
 
     if (!this.persistOutput) {
-      console.log(`[PicovoiceTextToSpeech] Deleting file ${filePath}`);
-
       unlinkSync(filePath);
+
+      console.log(`[PicovoiceTextToSpeech] File ${filePath} deleted`);
     }
 
     console.log('[PicovoiceTextToSpeech] Finished speaking');

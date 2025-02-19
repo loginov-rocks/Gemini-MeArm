@@ -4,6 +4,10 @@ const speechToText = new PicovoiceSpeechToText({
   accessKey: 'PICOVOICE_ACCESS_KEY',
 });
 
-const text = await speechToText.recordAndTranscribe();
+const firstText = await speechToText.recordAndTranscribe();
 
-console.log(`Text: "${text}"`);
+console.log(`First text: "${firstText}"`);
+
+const secondText = await speechToText.recordAndTranscribe();
+
+console.log(`Second text: "${secondText}"`);
