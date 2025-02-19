@@ -30,6 +30,10 @@ npm start
 Arduino Mega is used, but it can be anything, including Uno, as long as it has 4 PWM pins to control servos and a
 serial port.
 
+## TODO
+
+1. Support optional text-only mode when user responses are typed in the console.
+
 ## Reference
 
 * https://serialport.io

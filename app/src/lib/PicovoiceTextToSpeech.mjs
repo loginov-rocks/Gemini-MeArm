@@ -8,8 +8,9 @@ export class PicovoiceTextToSpeech {
     MALE: './node_modules/@picovoice/orca-node/lib/common/orca_params_male.pv',
   };
 
-  constructor({ accessKey, outputDir, persistOutput, voice }) {
+  constructor({ accessKey, logAlignments, outputDir, persistOutput, voice }) {
     this.accessKey = accessKey;
+    this.logAlignments = logAlignments;
     this.outputDir = outputDir;
     this.persistOutput = persistOutput;
     this.voice = voice;
@@ -23,15 +24,19 @@ export class PicovoiceTextToSpeech {
     console.log(`[PicovoiceTextToSpeech] Generating audio file ${filePath} with text: "${text}"...`);
 
     const orca = new Orca(this.accessKey, { modelPath: this.voice });
-    const sanitizedText = this.sanitizeText(text, orca.validCharacters/*, orca.maxCharacterLimit */);
+    const sanitizedText = this.sanitizeText(text, orca.validCharacters);
 
     console.log(`[PicovoiceTextToSpeech] Sanitized text: "${sanitizedText}"`);
 
     // @see https://picovoice.ai/docs/api/orca-nodejs/#orcasynthesizetofile
+    // TODO: Split text into chunks in case longer than orca.maxCharacterLimit.
     const alignments = orca.synthesizeToFile(sanitizedText, filePath);
     orca.release();
 
-    // console.log(`[PicovoiceTextToSpeech] Alignments: ${JSON.stringify(alignments)}`);
+    if (this.logAlignments) {
+      console.log(`[PicovoiceTextToSpeech] Alignments: ${JSON.stringify(alignments)}`);
+    }
+
     console.log('[PicovoiceTextToSpeech] Finished generating');
 
     return alignments;

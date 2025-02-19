@@ -1,6 +1,7 @@
 export class HandSolo {
-  constructor(llm, textToSpeech, { name }) {
+  constructor(llm, speechToText, textToSpeech, { name }) {
     this.llm = llm;
+    this.speechToText = speechToText;
     this.textToSpeech = textToSpeech;
 
     // Options
@@ -29,13 +30,29 @@ export class HandSolo {
       },
       required: [
         'response',
+        // TODO: Without the following, the model does not respond with coordinates when expected.
+        // 'x',
+        // 'y',
+        // 'z',
+        // 'isClawOpen',
       ],
     });
 
+    // TODO
     const { data, isJson } = await this.llm.chat(this.buildSystemPromp());
+    const response = isJson ? data.response : data;
 
-    console.log(`[HandSolo] Response to system prompt received: "${isJson ? data.response : data}"`);
+    console.log(`[HandSolo] Response to system prompt received: "${response}"`);
 
-    this.textToSpeech.speak(isJson ? data.response : data);
+    await this.textToSpeech.speak(response);
+
+    const text = await this.speechToText.recordAndTranscribe();
+
+    const secondResponse = await this.llm.chat(text);
+    const secondResponseText = secondResponse.isJson ? secondResponse.data.response : secondResponse.data;
+
+    console.log(`[HandSolo] Response received: "${secondResponseText}"`);
+
+    return this.textToSpeech.speak(secondResponseText);
   }
 }
