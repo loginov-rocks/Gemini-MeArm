@@ -8,12 +8,6 @@ export class LLM {
     this.model = model;
   }
 
-  setFormat(format) {
-    this.format = format;
-
-    console.log(`[LLM] Format set: ${JSON.stringify(this.format)}`);
-  }
-
   async chat(requestContent) {
     console.log(`[LLM] Sending request content: "${requestContent}"...`);
 
@@ -50,5 +44,11 @@ export class LLM {
     }
 
     return result;
+  }
+
+  setFormat(format) {
+    this.format = format;
+
+    console.log(`[LLM] Format set: ${JSON.stringify(this.format)}`);
   }
 }
