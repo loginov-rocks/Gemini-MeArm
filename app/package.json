@@ -1,10 +1,24 @@
 {
+  "name": "@loginov-rocks/hand-solo",
+  "version": "0.1.0",
   "scripts": {
-    "start:llm": "node src/llm.mjs",
-    "start:serial": "node src/serial.mjs",
-    "start:stt": "node src/speech-to-text.mjs",
-    "start:tts": "node src/text-to-speech.mjs"
+    "start": "node src/index.mjs",
+    "test:llm": "node src/llm.mjs",
+    "test:serial": "node src/serial.mjs",
+    "test:stt": "node src/speech-to-text.mjs",
+    "test:tts": "node src/text-to-speech.mjs"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loginov-rocks/Hand-Solo.git"
+  },
+  "author": "Danila Loginov <danila@loginov.rocks> (https://loginov.rocks)",
+  "license": "MIT",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/loginov-rocks/Hand-Solo/issues"
+  },
+  "homepage": "https://github.com/loginov-rocks/Hand-Solo",
   "dependencies": {
     "@picovoice/cheetah-node": "^2.1.2",
     "@picovoice/orca-node": "^1.0.2",

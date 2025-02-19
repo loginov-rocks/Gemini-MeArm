@@ -1,6 +1,6 @@
-# LLM MeArm
+# Hand Solo
 
-Project to control MeArm with LLM.
+Project to control 4 DOF Robot Arm (such as MeArm) with LLM.
 
 ## LLM
 
@@ -18,15 +18,17 @@ Developed with Node.js v20.
 
 ```
 npm i
-npm run start:llm
-npm run start:serial
-npm run start:stt
-npm run start:tts
+npm run test:llm
+npm run test:serial
+npm run test:stt
+npm run test:tts
+npm start
 ```
 
 ## Firmware
 
-Arduino Mega
+Arduino Mega is used, but it can be anything, including Uno, as long as it has 4 PWM pins to control servos and a
+serial port.
 
 ## Reference
 
@@ -41,4 +43,5 @@ Arduino Mega
 * https://ollama.com
 * https://github.com/ollama/ollama-js
 * https://github.com/ollama/ollama/blob/main/docs/api.md#chat-request-no-streaming
+* https://github.com/ollama/ollama/blob/main/docs/api.md#chat-request-structured-outputs
 * https://github.com/ollama/ollama/blob/main/docs/api.md#chat-request-with-history
