@@ -1,7 +1,7 @@
 import { PicovoiceTextToSpeech } from './lib/PicovoiceTextToSpeech.mjs';
 
 const textToSpeech = new PicovoiceTextToSpeech({
-  accessKey: '',
+  accessKey: 'PICOVOICE_ACCESS_KEY',
   outputDir: './synthesized',
   persistOutput: true,
   voice: PicovoiceTextToSpeech.VOICES.FEMALE,

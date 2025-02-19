@@ -3,6 +3,11 @@ import { unlinkSync } from 'fs';
 import PlaySound from 'play-sound';
 
 export class PicovoiceTextToSpeech {
+  static VOICES = {
+    FEMALE: './node_modules/@picovoice/orca-node/lib/common/orca_params_female.pv',
+    MALE: './node_modules/@picovoice/orca-node/lib/common/orca_params_male.pv',
+  };
+
   constructor({ accessKey, outputDir, persistOutput, voice }) {
     this.orca = new Orca(accessKey, { modelPath: voice });
     this.outputDir = outputDir;
@@ -10,11 +15,6 @@ export class PicovoiceTextToSpeech {
 
     this.player = PlaySound();
   }
-
-  static VOICES = {
-    FEMALE: './node_modules/@picovoice/orca-node/lib/common/orca_params_female.pv',
-    MALE: './node_modules/@picovoice/orca-node/lib/common/orca_params_male.pv',
-  };
 
   buildFilePath() {
     return `${this.outputDir}/${Date.now()}.wav`;

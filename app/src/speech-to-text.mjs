@@ -1,42 +1,9 @@
-import { Cheetah } from '@picovoice/cheetah-node';
-import { PvRecorder } from '@picovoice/pvrecorder-node';
+import { PicovoiceSpeechToText } from './lib/PicovoiceSpeechToText.mjs';
 
-const PICOVOICE_ACCESS_KEY = '';
+const speechToText = new PicovoiceSpeechToText({
+  accessKey: 'PICOVOICE_ACCESS_KEY',
+});
 
-const PVRECORDER_FRAME_LENGTH = 512;
+const text = await speechToText.recordAndTranscribe();
 
-const cheetah = new Cheetah(PICOVOICE_ACCESS_KEY, { enableAutomaticPunctuation: true });
-const pvRecorder = new PvRecorder(PVRECORDER_FRAME_LENGTH);
-
-const transcribe = async () => {
-  console.log('Starting recording...');
-
-  pvRecorder.start();
-
-  let isPaused = false;
-
-  while (!isPaused) {
-    const frame = await pvRecorder.read();
-
-    const [partialTranscript, isEndpoint] = cheetah.process(frame);
-
-    if (partialTranscript) {
-      console.log(`Partial transcript: "${partialTranscript}"`);
-    }
-
-    if (isEndpoint) {
-      isPaused = true;
-      const finalTranscript = cheetah.flush();
-      console.log(`Final transcript: "${finalTranscript}"`);
-    }
-  }
-
-  console.log('Stopping recording, releasing resources...');
-
-  pvRecorder.release();
-  cheetah.release();
-
-  console.log('Complete!');
-};
-
-transcribe();
+console.log(`Text: "${text}"`);
